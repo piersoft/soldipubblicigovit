@@ -39,28 +39,26 @@ function start($telegram,$update)
 		$this->create_keyboard_temp($telegram,$chat_id);
 		exit;
 		}
-		elseif ($text == "Ente") {
+		elseif ($text == "Ente" || $text == "/ente") {
 			$reply = "Digita direttamente il nome dell'Ente per conoscerne il Codice Ente che ti servirà per la ricerca delle spese. Esempio: Comune di Prato";
 			$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 			$telegram->sendMessage($content);
 			$log=$today. ",Ente," .$chat_id. "\n";
 			file_put_contents(dirname(__FILE__).'/./db/telegram.log', $log, FILE_APPEND | LOCK_EX);
+			$this->create_keyboard_temp($telegram,$chat_id);
 
 			exit;
 			}
-			elseif ($text == "Ricerca") {
+			elseif ($text == "Ricerca"|| $text == "/ricerca") {
 				$reply = "Scrivi in ordine: %codiceente ricavato dalla ricerca dell'Ente e poi la spesa da cercare anteponendo il carattere ?, ad esempio: %000705530?Spese postali per le Spese Postali inerenti il Comune di Lecce";
 				$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 				$telegram->sendMessage($content);
 				$log=$today. ",ricerca," .$chat_id. "\n";
 				file_put_contents(dirname(__FILE__).'/./db/telegram.log', $log, FILE_APPEND | LOCK_EX);
+				$this->create_keyboard_temp($telegram,$chat_id);
 
 				exit;
 			}
-			elseif($location!=null)
-		{
-		exit;
-		}
 
 		elseif(strpos($text,'/') === false){
 			function extractString($string, $start, $end) {
